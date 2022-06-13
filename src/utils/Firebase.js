@@ -1,5 +1,7 @@
+
+import firestore from '@react-native-firebase/firestore';
 import * as firebase from 'firebase';
-import firestore from 'firebase/firestore';
+// import * as firebase from '@react-native-firebase/app'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCilR6pNetn2OZ1-I8EWv9zT0KUwFQWCos',
@@ -14,5 +16,9 @@ const firebaseConfig = {
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
-firebase.firestore();
-export default firebaseConfig;
+
+export default  {firebase}
+
+
+// export  default !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
+

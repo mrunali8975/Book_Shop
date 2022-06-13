@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import PushNotification from 'react-native-push-notification';
 
 export const createChannel = () => {
+  //  creating channel for notification
   PushNotification.createChannel(
     {
       channelId: '100', // (required)
@@ -12,6 +13,7 @@ export const createChannel = () => {
       soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
       vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
       vibration: 300,
+
       visibility: 'public',
     },
     created => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
@@ -34,17 +36,21 @@ PushNotification.configure({
 });
 
 export const LocalNotification = () => {
+ 
   PushNotification.localNotification({
+   
     channelId: '100',
     autoCancel: true,
-    bigText: 'New Task Added.',
-    subText: 'you added task',
+    bigText: 'New Book Added.',
+    subText: 'Admin added new book',
     title: 'New Task Notification',
     message: 'Expand me to see more',
     vibrate: true,
     vibration: 300,
     playSound: true,
     soundName: 'default',
+    
+    
   });
 };
 
@@ -59,6 +65,8 @@ export const requestUserPermission = async () => {
     getFcmtoken();
   }
 };
+
+// getting fcm token
 
 const getFcmtoken = async () => {
   let fcmtoken = await AsyncStorage.getItem('fcmtoken');
@@ -75,6 +83,9 @@ const getFcmtoken = async () => {
     }
   }
 };
+
+
+// It will handle the notification
 export const notificationListner = () => {
   messaging().onNotificationOpenedApp(remoteMessage => {
     console.log(

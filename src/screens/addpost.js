@@ -5,8 +5,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  ToastAndroid,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
+import {Addbooks} from '../utils/firestoredatabase';
+
 import {
   requestUserPermission,
   notificationListner,
@@ -17,49 +20,14 @@ import {
 import PushNotification from 'react-native-push-notification';
 const logoimage =
   '/home/mambhore/React Native/RNnotificationdemo/src/assets/download.png';
-const AddPost = () => {
+// import firebase from '../utils/Firebase';
+const AddPost = ({navigation}) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [price, setPrice] = useState('');
-  // const [isLoading,setIsLoading]=useState(false)
-  // const dbref=firebase.firestore().collection('Books');
 
-  // const addpost =()=>
-  // {
 
-  //    try {
-  //      setIsLoading(true)
-  //      dbref.add(
-  //       {
-  //         Title:title,
-  //         Author:author,
-  //         Price:price
-  //       }
-
-  //      ).then({
-
-  //      }).catch((err)=>
-  //      {
-  //        console.log(err,'error in add')
-  //      })
-
-  //    } catch (error) {
-  //      console.log(error,'error in add post')
-  //    }
-
-  // }
-
-  // const ValidInputs =()=>
-
-  // {
-  //  if (title=='' && author=='',price=='')
-  //  {
-  //    return false
-  //  }
-  // return true;
-
-  // }
-
+ 
   useEffect(() => {
     requestUserPermission();
     notificationListner();
@@ -68,8 +36,14 @@ const AddPost = () => {
   }, []);
 
   const handlesubmit = () => {
-    LocalNotification();
-    console.log('title -->', title, 'author -->', author, 'price -->', price);
+    if (title != '' && author != '' && price != '') {
+      Addbooks(title, author, price);
+      console.log('title -->', title, 'author -->', author, 'price -->', price);
+      LocalNotification();
+    } else {
+      console.log('error');
+      ToastAndroid.show('Required all field !!', ToastAndroid.LONG);
+    }
   };
 
   return (
@@ -82,7 +56,6 @@ const AddPost = () => {
           alignItems: 'center',
           textAlign: 'center',
         }}>
-        {/* <Text style={{fontSize:30,fontWeight:'1000',textAlign:'center',color:'black'}}> BOOK STORE</Text> */}
       </View>
       <View style={styles.formcontainer}>
         <TextInput
@@ -101,8 +74,9 @@ const AddPost = () => {
           placeholder="price"
         />
 
+      
         <TouchableOpacity style={styles.submit} onPress={handlesubmit}>
-          <Text style={styles.submittext}>Submit</Text>
+          <Text style={styles.submittext}>SUBMIT</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -130,7 +104,7 @@ const styles = StyleSheet.create({
   },
 
   submit: {
-    backgroundColor: 'grey',
+    backgroundColor: '#6a994e',
     borderRadius: 10,
     width: '50%',
     margin: 10,
@@ -144,12 +118,13 @@ const styles = StyleSheet.create({
   },
   textinput: {
     fontSize: 20,
-    backgroundColor: '#8ecae6',
+    backgroundColor: '#e9ecef',
     marginBottom: 10,
     borderRadius: 10,
     padding: 10,
     width: '100%',
     justifyContent: 'center',
   },
+
 });
 export default AddPost;
